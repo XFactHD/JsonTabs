@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class JsonTabManager
+public final class JsonTabManager
 {
     public static final Path TABS_PATH = FMLPaths.GAMEDIR.get().resolve("jsontabs");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -63,6 +63,7 @@ public class JsonTabManager
             return;
         }
 
+        Map<ResourceLocation, Path> processed = new HashMap<>();
         List<TabDefinition> definitions = new ArrayList<>();
         try (Stream<Path> paths = Files.list(TABS_PATH))
         {
@@ -76,7 +77,22 @@ public class JsonTabManager
                         {
                             throw new JsonParseException(def.error().get().message());
                         }
-                        definitions.add(def.result().orElseThrow(() -> new JsonParseException("")));
+
+                        TabDefinition tabDef = def.result().orElseThrow(() -> new JsonParseException(
+                                "Unknown error while retrieving parsed tab definition"
+                        ));
+                        if (processed.containsKey(tabDef.name()))
+                        {
+                            throw new JsonParseException(String.format(
+                                    "Found duplicated tab name '%s' in file '%s', previously found in '%s'",
+                                    tabDef.name(),
+                                    filePath.toAbsolutePath().normalize(),
+                                    processed.get(tabDef.name()).toAbsolutePath().normalize()
+                            ));
+                        }
+
+                        processed.put(tabDef.name(), filePath);
+                        definitions.add(tabDef);
                     });
         }
         catch (IOException | JsonParseException e)

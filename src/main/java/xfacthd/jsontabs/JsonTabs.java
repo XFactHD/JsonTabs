@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Mod(JsonTabs.MODID)
-public class JsonTabs
+public final class JsonTabs
 {
     public static final String MODID = "jsontabs";
     public static final Logger LOGGER = LogUtils.getLogger();
@@ -118,7 +118,7 @@ public class JsonTabs
         }
         catch (IOException e)
         {
-            LOGGER.error("Failed to create pack metadata, builtin pack won't be loaded. Create pack.mcmeta manually to fix");
+            LOGGER.error("Failed to create pack metadata, builtin pack won't be loaded. Create pack.mcmeta manually to fix", e);
             return false;
         }
     }
