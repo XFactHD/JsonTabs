@@ -36,10 +36,10 @@ public final class JsonTabManager
             Codec.BOOL.optionalFieldOf("no_title").forGetter(TabDefinition::noTitleOpt),
             Codec.BOOL.optionalFieldOf("no_scrollbar").forGetter(TabDefinition::noScrollOpt),
             ResourceLocation.CODEC.optionalFieldOf("background").forGetter(TabDefinition::backgroundOpt),
-            Codec.INT.optionalFieldOf("label_color").forGetter(TabDefinition::labelColorOpt),
+            Utils.FLEXIBLE_INT_CODEC.optionalFieldOf("label_color").forGetter(TabDefinition::labelColorOpt),
             Codec.BOOL.optionalFieldOf("search_bar").forGetter(TabDefinition::searchBarOpt),
             Codec.INT.optionalFieldOf("search_bar_width").forGetter(TabDefinition::searchBarWidthOpt),
-            Codec.INT.optionalFieldOf("slot_color").forGetter(TabDefinition::slotColorOpt),
+            Utils.FLEXIBLE_INT_CODEC.optionalFieldOf("slot_color").forGetter(TabDefinition::labelColorOpt),
             ResourceLocation.CODEC.optionalFieldOf("tab_image").forGetter(TabDefinition::tabImageOpt),
             new ExtraCodecs.EitherCodec<>(
                     TabEntry.CODEC_SIMPLE,
