@@ -45,14 +45,14 @@ public final class Utils
                 }
                 catch (NumberFormatException e)
                 {
-                    return DataResult.error(e.getMessage());
+                    return DataResult.error(e::getMessage);
                 }
             }
             else if (stringResult.error().isPresent())
             {
-                return DataResult.error(stringResult.error().get().message());
+                return DataResult.error(stringResult.error().get()::message);
             }
-            return DataResult.error("Not a number: " + input);
+            return DataResult.error(() -> "Not a number: " + input);
         }
 
         @Override

@@ -25,7 +25,7 @@ public record TabDefinition(
         List<TabEntry> contents
 )
 {
-    private static final CreativeModeTab.DisplayItemsGenerator EMPTY_GENERATOR = (flags, output, bool) -> { };
+    private static final CreativeModeTab.DisplayItemsGenerator EMPTY_GENERATOR = (params, output) -> { };
 
     public boolean useVanilla()
     {
@@ -62,7 +62,7 @@ public record TabDefinition(
             return EMPTY_GENERATOR;
         }
 
-        return (flags, output, bool) ->
+        return (params, output) ->
         {
             for (TabEntry entry : contents)
             {
@@ -70,7 +70,7 @@ public record TabDefinition(
                         String.format("Found invalid entry '%s' in tab definition '%s', ignoring", entry.name(), name)
                 );
 
-                if (!stack.isEmpty() && stack.isItemEnabled(flags))
+                if (!stack.isEmpty() && stack.isItemEnabled(params.enabledFeatures()))
                 {
                     output.accept(stack);
                 }
